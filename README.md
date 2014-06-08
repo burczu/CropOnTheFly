@@ -5,16 +5,20 @@ A jQuery plugin which allows you to crop images on the fly (while loading and re
 
 Usage example:
 
+```
 $('img').cropOnTheFly(options);
+```
 
 where 'options' is an object similar to this:
 
+```
 var options = {
     height: 250,
     width: 400,
     verticalPosition: 'center',
     horizontalPosition: 'center'
 }
+```
 
 Explanation of each property below:
 
