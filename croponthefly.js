@@ -11,23 +11,40 @@
 
 (function($) {
 
-	function crop(element, maxHeight) {	
+    function createParent(element){
+        // create parent div
+        $(element).wrap(function (){
+            var parent = $(this).parent('.cropContainer');
+
+            if (parent.length === 0){
+                return '<div class="cropContainer"></div>';
+            }
+
+            return false;
+        });
+    }
+
+	function crop(element, settings) {
 		// variables
 		var top;
 		
 		// change max height if needed
-		if (element.height < maxHeight) {
-			maxHeight = element.height;
+		if (element.height < settings.height) {
+			settings.Height = element.height;
 		}
 		
 		// calculate top
-		top = -1 * ((element.height - maxHeight) / 2);
-		
-		$(element).parents('.custom-thumb')
-			.css('overflow', 'hidden')
-			.css('height', maxHeight + 'px');
-		
+		top = -1 * ((element.height - settings.height) / 2);
+
+        createParent(element);
+
+        $(element)
+            .parent('.cropContainer')
+            .css('overflow', 'hidden')
+            .css('height', settings.height + 'px');
+
 		$(element)
+            .css('position', 'relative')
 			.css('top', top + 'px')
 			.css('margin', '0px');
 	}
@@ -47,7 +64,7 @@
 			
 			// set up event
 			$(window).on('load resize', function() {
-				crop(self, settings.height);
+				crop(self, settings);
 			});
 		});		
 	};
