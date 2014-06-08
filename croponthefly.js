@@ -11,8 +11,9 @@
 
 (function($) {
 
-    function createParent(element){
-        // create parent div
+    // creates and gets parent div
+    function getParent(element){
+
         $(element).wrap(function (){
             var parent = $(this).parent('.cropContainer');
 
@@ -22,27 +23,51 @@
 
             return false;
         });
+
+        return $(element).parent('.cropContainer');
     }
 
-	function crop(element, settings) {
+    // calculates ang gets movement from top
+    function getTop(element, settings) {
+        // variables
+        var top;
+
+        switch(settings.verticalPosition){
+            case 'center':
+                top = -1 * ((element.height - settings.height) / 2);
+                break;
+            case 'bottom':
+                top =  -1 * (element.height - settings.height);
+                break;
+            case 'top':
+            default :
+                top = 0;
+                break;
+        }
+
+        return top;
+    }
+
+    function crop(element, settings) {
 		// variables
-		var top;
+		var top,
+            parent;
 		
 		// change max height if needed
 		if (element.height < settings.height) {
-			settings.Height = element.height;
+			settings.height = element.height;
 		}
-		
-		// calculate top
-		top = -1 * ((element.height - settings.height) / 2);
 
-        createParent(element);
+        top = getTop(element, settings);
 
-        $(element)
-            .parent('.cropContainer')
+        parent = getParent(element);
+
+        // set styles for parent
+        $(parent)
             .css('overflow', 'hidden')
             .css('height', settings.height + 'px');
 
+        // sets styles for image
 		$(element)
             .css('position', 'relative')
 			.css('top', top + 'px')
@@ -53,8 +78,8 @@
 		
 		// handle options
 		var settings = $.extend({
-			height: 100, // set default value of height to 100
-			width: 50 // another default (not used yet)
+			height: 100, // default height
+            verticalPosition: 'top' //default vertical position
 		}, options );
 	
 		// do for each element
