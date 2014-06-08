@@ -3,6 +3,10 @@ CropOnTheFly
 
 A jQuery plugin which allows you to crop images on the fly (while loading and resizing of the browser window).
 
+Installation:
+
+Just download cropOnTheFly.js file and add it to your page (minified version of the file will be availabe soon)!
+
 Usage example:
 
 ```javascript
