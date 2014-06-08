@@ -9,7 +9,9 @@
 <body>
     <script>
         $(document).ready(function(){
-            $('img').setUpCropping({ height: 190, verticalPosition: 'bottom' });
+            $('img').cropOnTheFly({
+                height: 180,
+                verticalPosition: 'center' });
         });
     </script>
     <h1>This is test page for Crop Images On The Fly - The jQuery plugin.</h1>

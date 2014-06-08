@@ -28,16 +28,16 @@
     }
 
     // calculates ang gets movement from top
-    function getTop(element, settings) {
+    function getTop(element, height, vertical) {
         // variables
         var top;
 
-        switch(settings.verticalPosition){
+        switch(vertical){
             case 'center':
-                top = -1 * ((element.height - settings.height) / 2);
+                top = -1 * ((element.height - height) / 2);
                 break;
             case 'bottom':
-                top =  -1 * (element.height - settings.height);
+                top =  -1 * (element.height - height);
                 break;
             case 'top':
             default :
@@ -48,24 +48,39 @@
         return top;
     }
 
+    // calculates and gets height
+    function getHeight(settings, element) {
+        // variables
+        var height = settings.height;
+
+        // handle default (height is null so get height of the image)
+        if (height === null) {
+            height = element.height;
+        }
+
+        // if image height is smaller than set height use image height
+        if (element.height < height) {
+            height = element.height;
+        }
+
+        return height;
+    }
+
     function crop(element, settings) {
 		// variables
 		var top,
-            parent;
-		
-		// change max height if needed
-		if (element.height < settings.height) {
-			settings.height = element.height;
-		}
+            parent,
+            height;
 
-        top = getTop(element, settings);
+        height = getHeight(settings, element);
+        top = getTop(element, height, settings.verticalPosition);
 
         parent = getParent(element);
 
         // set styles for parent
         $(parent)
             .css('overflow', 'hidden')
-            .css('height', settings.height + 'px');
+            .css('height', height + 'px');
 
         // sets styles for image
 		$(element)
@@ -74,12 +89,14 @@
 			.css('margin', '0px');
 	}
 
-	$.fn.setUpCropping = function(options) {
+	$.fn.cropOnTheFly = function(options) {
 		
 		// handle options
 		var settings = $.extend({
-			height: 100, // default height
-            verticalPosition: 'top' //default vertical position
+			height: null, // default height
+            width: null, // default width
+            verticalPosition: 'top', // default vertical position
+            horizontalPosition: 'left' // default horizontal position
 		}, options );
 	
 		// do for each element
