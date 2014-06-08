@@ -24,5 +24,5 @@ Explanation of each property below:
 
 * **height**: default value is _**nul**_ which means that the full height of the image will be used; you can also set a fixed value in pixels
 * **width**: default value is _**null**_, it works the same as for _**height**_ property
-* **verticalPosition**: default value is _**top**_ which means that after cutting the height it will show the top segment of the image; other options are _**cente**_ and _**bottom**_
-* **horizontalPosition**: default value is _**left**_ which means that that after cutting the width it will show the left segment of the image; other options are _**center**_ and _**right**_
+* **verticalPosition**: default value is _**'top'**_ which means that after cutting the height it will show the top segment of the image; other options are _**'center'**_ and _**'bottom'**_
+* **horizontalPosition**: default value is _**'left'**_ which means that that after cutting the width it will show the left segment of the image; other options are _**'center'**_ and _**'right'**_
