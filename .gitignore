@@ -224,3 +224,11 @@ pip-log.txt
 .idea/workspace.xml
 .idea/vcs.xml
 .idea/vcs.xml
+node_modules/.bin/yuicompressor
+node_modules/.bin/yuicompressor.cmd
+node_modules/yuicompressor/README.md
+node_modules/yuicompressor/nodejs/cli.js
+node_modules/yuicompressor/nodejs/index.js
+node_modules/yuicompressor/package.json
+.idea/CropOnTheFly.iml
+.idea/CropOnTheFly.iml
