@@ -6,7 +6,7 @@
  * Uses the same license as jQuery, see:
  * http://docs.jquery.com/License
  *
- * @version 0.0.1
+ * @version 0.9.0
  */
 
 (function($) {
@@ -27,72 +27,86 @@
         return $(element).parent('.cropContainer');
     }
 
-    // calculates ang gets movement from top
-    function getTop(element, height, vertical) {
+    // calculates ang gets shift
+    function getShift(elementMeasure, settingsMeasure, position) {
         // variables
-        var top;
+        var result;
 
-        switch(vertical){
+        switch(position){
             case 'center':
-                top = -1 * ((element.height - height) / 2);
+                result = -1 * ((elementMeasure - settingsMeasure) / 2);
                 break;
             case 'bottom':
-                top =  -1 * (element.height - height);
+            case 'right':
+                result =  -1 * (elementMeasure - settingsMeasure);
                 break;
             case 'top':
+            case 'left':
             default :
-                top = 0;
+                result = 0;
                 break;
         }
 
-        return top;
+        return result;
     }
 
     // calculates and gets height
-    function getHeight(settings, element) {
+    function getMeasure(elementMeasure, settingsMeasure) {
         // variables
-        var height = settings.height;
+        var result = settingsMeasure;
 
         // handle default (height is null so get height of the image)
-        if (height === null) {
-            height = element.height;
+        if (result === null) {
+            result = elementMeasure;
         }
 
         // if image height is smaller than set height use image height
-        if (element.height < height) {
-            height = element.height;
+        if (elementMeasure < result) {
+            result = elementMeasure;
         }
 
-        return height;
+        return result;
     }
 
+    // do all calculations and crops the image
     function crop(element, settings) {
-		// variables
-		var top,
-            parent,
-            height;
+        // variables
+        var parent,
+            top,
+            left,
+            height,
+            width;
 
-        height = getHeight(settings, element);
-        top = getTop(element, height, settings.verticalPosition);
+        // calculate measures
+        height = getMeasure(element.height, settings.height);
+        width = getMeasure(element.width, settings.width);
 
+        // calculate shifts
+        top = getShift(element.height, height, settings.verticalPosition);
+        left = getShift(element.width, width, settings.horizontalPosition);
+
+        // wrap image by div
         parent = getParent(element);
 
-        // set styles for parent
+        // set styles for parent div
         $(parent)
             .css('overflow', 'hidden')
-            .css('height', height + 'px');
+            .css('height', height + 'px')
+            .css('width', width + 'px');
 
         // sets styles for image
 		$(element)
             .css('position', 'relative')
+            .css('margin', '0px')
 			.css('top', top + 'px')
-			.css('margin', '0px');
+            .css('left', left + 'px');
 	}
 
+    // set up jQuery plugin
 	$.fn.cropOnTheFly = function(options) {
-		
-		// handle options
-		var settings = $.extend({
+
+        // handle default options
+        var settings = $.extend({
 			height: null, // default height
             width: null, // default width
             verticalPosition: 'top', // default vertical position
