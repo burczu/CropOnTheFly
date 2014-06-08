@@ -214,6 +214,7 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 *.iml
+.idea/
 .idea/encodings.xml
 .idea/misc.xml
 .idea/modules.xml
