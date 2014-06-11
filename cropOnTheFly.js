@@ -6,7 +6,7 @@
  * Uses the same license as jQuery, see:
  * http://docs.jquery.com/License
  *
- * @version 0.9.0
+ * @version 1.0.0
  */
 
 (function($) {
