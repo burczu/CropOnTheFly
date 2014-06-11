@@ -102,16 +102,19 @@
             .css('left', left + 'px');
 	}
 
+    // settings for all instances
+    $.fn.cropOnTheFly.settings = {
+        height: null, // default height
+        width: null, // default width
+        verticalPosition: 'top', // default vertical position
+        horizontalPosition: 'left' // default horizontal position
+    };
+
     // set up jQuery plugin
 	$.fn.cropOnTheFly = function(options) {
 
         // handle default options
-        var settings = $.extend({
-			height: null, // default height
-            width: null, // default width
-            verticalPosition: 'top', // default vertical position
-            horizontalPosition: 'left' // default horizontal position
-		}, options );
+        var settings = $.extend($.fn.cropOnTheFly.settings, options);
 	
 		// do for each element
 		return this.each(function() {
