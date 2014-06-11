@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Crop On The Fly by burczu</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Crop On The Fly</h1>
+          <h2>A jQuery plugin which allows you to crop images on the fly</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/burczu/CropOnTheFly/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/burczu/CropOnTheFly/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/burczu/CropOnTheFly" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="croponthefly" class="anchor" href="#croponthefly"><span class="octicon octicon-link"></span></a>CropOnTheFly</h1>
+
+<h1></h1>
+
+<p>A jQuery plugin which allows you to crop images on the fly (while loading and resizing of the browser window).</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation:</h2>
+
+<p>Just download cropOnTheFly.js file (or cropOnTheFly.min.js if you want minified version) and add it to your page.</p>
+
+<h2>
+<a name="usage-example" class="anchor" href="#usage-example"><span class="octicon octicon-link"></span></a>Usage example:</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">'img'</span><span class="p">).</span><span class="nx">cropOnTheFly</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre></div>
+
+<p>where 'options' is an object similar to this:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">250</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">verticalPosition</span><span class="o">:</span> <span class="s1">'center'</span><span class="p">,</span>
+    <span class="nx">horizontalPosition</span><span class="o">:</span> <span class="s1">'center'</span><span class="p">,</span>
+    <span class="nx">afterCrop</span><span class="p">(</span><span class="nx">parameter</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s1">'height: '</span> <span class="o">+</span> <span class="nx">parameter</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Explanation of each property below:</p>
+
+<ul>
+<li>
+<strong>height</strong>: default value is <em><strong>nul</strong></em> which means that the full height of the image will be used; you can also set a fixed value in pixels</li>
+<li>
+<strong>width</strong>: default value is <em><strong>null</strong></em>, it works the same as for <em><strong>height</strong></em> property</li>
+<li>
+<strong>verticalPosition</strong>: default value is <em><strong>'top'</strong></em> which means that after cutting the height it will show the top segment of the image; other options are <em><strong>'center'</strong></em> and <em><strong>'bottom'</strong></em>; you could also use <em><strong>numeric</strong></em> values where <em><strong>0</strong></em> means <em><strong>'top'</strong></em>
+</li>
+<li>
+<strong>horizontalPosition</strong>: default value is <em><strong>'left'</strong></em> which means that that after cutting the width it will show the left segment of the image; other options are <em><strong>'center'</strong></em> and <em><strong>'right'</strong></em>; you could also use <em><strong>numeric</strong></em> values where <em><strong>0</strong></em> means <em><strong>'left'</strong></em>
+</li>
+<li>
+<strong>afterCrop</strong>: default value is an empty function; this is callback function which will be called just after cropping is finished; the parameter taken by this function is an object which contains calculations and objects used to crop; this object can look like this:</li>
+</ul><div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">height</span><span class="o">:</span> <span class="mi">250</span><span class="p">,</span>
+    <span class="nx">width</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="nx">top</span><span class="o">:</span> <span class="o">-</span><span class="mi">175</span><span class="p">,</span>
+    <span class="nx">left</span><span class="o">:</span> <span class="o">-</span><span class="mi">75</span><span class="p">,</span>
+    <span class="nx">element</span><span class="o">:</span> <span class="p">{},</span>
+    <span class="nx">parent</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Explanation of each property below:</p>
+
+<ul>
+<li>
+<strong>height</strong>: calculated height of the image</li>
+<li>
+<strong>width</strong>: calculated width of the image</li>
+<li>
+<strong>top</strong>: calculated position of the image; this value is set to <em><strong>'top'</strong></em> CSS property</li>
+<li>
+<strong>left</strong>: calculated position of the image; this value is set to <em><strong>'left'</strong></em> CSS property</li>
+<li>
+<strong>element</strong>: object which contains <em><strong>'img'</strong></em> HTML element</li>
+<li>
+<strong>parent</strong>: object which contains <em><strong>'div'</strong></em> HTML element; this element is an injected container which contains image</li>
+</ul>
+        </section>
+
+        <footer>
+          Crop On The Fly is maintained by <a href="https://github.com/burczu">burczu</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
