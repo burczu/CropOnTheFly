@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Crop Images On The Fly - test page</title>
     <script src="References/jquery-1.11.1.js"></script>
-    <script src="cropOnTheFly.js"></script>
+    <script src="cropOnTheFly.min.js"></script>
 </head>
 <body>
     <script>
@@ -12,8 +12,11 @@
             $('img').cropOnTheFly({
                 height: 250,
                 width: 400,
-                verticalPosition: 150,
-                horizontalPosition: 290
+                verticalPosition: 'center',
+                horizontalPosition: 'center',
+                afterCrop: function (param) {
+                    alert(param.top);
+                }
             });
         });
     </script>

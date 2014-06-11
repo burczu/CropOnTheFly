@@ -78,35 +78,37 @@
     // do all calculations and crops the image
     function crop(element, settings) {
         // variables
-        var parent,
-            top,
-            left,
-            height,
-            width;
+        var cropParameters = {};
 
         // calculate measures
-        height = getMeasure(element.height, settings.height);
-        width = getMeasure(element.width, settings.width);
+        cropParameters.height = getMeasure(element.height, settings.height);
+        cropParameters.width = getMeasure(element.width, settings.width);
 
         // calculate shifts
-        top = getShift(element.height, height, settings.verticalPosition);
-        left = getShift(element.width, width, settings.horizontalPosition);
+        cropParameters.top = getShift(element.height, cropParameters.height, settings.verticalPosition);
+        cropParameters.left = getShift(element.width, cropParameters.width, settings.horizontalPosition);
 
         // wrap image by div
-        parent = getParent(element);
+        cropParameters.parent = getParent(element);
+
+        // assign element to parameters
+        cropParameters.element = element;
 
         // set styles for parent div
-        $(parent)
+        $(cropParameters.parent)
             .css('overflow', 'hidden')
-            .css('height', height + 'px')
-            .css('width', width + 'px');
+            .css('height', cropParameters.height + 'px')
+            .css('width', cropParameters.width + 'px');
 
         // sets styles for image
 		$(element)
             .css('position', 'relative')
             .css('margin', '0px')
-			.css('top', top + 'px')
-            .css('left', left + 'px');
+			.css('top', cropParameters.top + 'px')
+            .css('left', cropParameters.left + 'px');
+
+        // call "after" callback
+        settings.afterCrop(cropParameters);
 	}
 
     // set up jQuery plugin
@@ -132,7 +134,8 @@
         height: null, // default height
         width: null, // default width
         verticalPosition: 'top', // default vertical position
-        horizontalPosition: 'left' // default horizontal position
+        horizontalPosition: 'left', // default horizontal position
+        afterCrop: function (cropParameters) {} // default callback (does nothing)
     };
 	
 } (jQuery));
