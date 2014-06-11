@@ -42,8 +42,15 @@
                 break;
             case 'top':
             case 'left':
-            default :
                 result = 0;
+                break;
+            default :
+                // position here can be number or null
+                if ($.isNumeric(position) == true) {
+                    result = position * -1;
+                } else {
+                    result = 0; // null and not supported values
+                }
                 break;
         }
 
@@ -102,19 +109,11 @@
             .css('left', left + 'px');
 	}
 
-    // settings for all instances
-    $.fn.cropOnTheFly.settings = {
-        height: null, // default height
-        width: null, // default width
-        verticalPosition: 'top', // default vertical position
-        horizontalPosition: 'left' // default horizontal position
-    };
-
     // set up jQuery plugin
 	$.fn.cropOnTheFly = function(options) {
 
         // handle default options
-        var settings = $.extend($.fn.cropOnTheFly.settings, options);
+        var settings = $.extend({}, $.fn.cropOnTheFly.settings, options);
 	
 		// do for each element
 		return this.each(function() {
@@ -127,5 +126,13 @@
 			});
 		});		
 	};
+
+    // settings for all instances
+    $.fn.cropOnTheFly.settings = {
+        height: null, // default height
+        width: null, // default width
+        verticalPosition: 'top', // default vertical position
+        horizontalPosition: 'left' // default horizontal position
+    };
 	
 } (jQuery));
