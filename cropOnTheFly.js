@@ -6,7 +6,7 @@
  * Uses the same license as jQuery, see:
  * http://docs.jquery.com/License
  *
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 (function($) {
@@ -75,40 +75,68 @@
         return result;
     }
 
+    // shows the loader depending on settings
+    function showLoader(settings, element) {
+        // show indicator
+        if (settings.showLoader === true) {
+            if (settings.loaderCss !== null) {
+                $(element).css(settings.loaderCss);
+            }
+
+            $(element).attr('src', settings.loaderSrc);
+        }
+        else {
+            $(element).hide();
+        }
+    }
+
     // do all calculations and crops the image
     function crop(element, settings) {
         // variables
-        var cropParameters = {};
-
-        // calculate measures
-        cropParameters.height = getMeasure(element.height, settings.height);
-        cropParameters.width = getMeasure(element.width, settings.width);
-
-        // calculate shifts
-        cropParameters.top = getShift(element.height, cropParameters.height, settings.verticalPosition);
-        cropParameters.left = getShift(element.width, cropParameters.width, settings.horizontalPosition);
+        var //
+            cropParameters = {},
+            src = $(element).attr('data-src'),
+            image = new Image();
 
         // wrap image by div
         cropParameters.parent = getParent(element);
 
-        // assign element to parameters
-        cropParameters.element = element;
+        // show loader if needed
+        showLoader(settings, element);
 
-        // set styles for parent div
-        $(cropParameters.parent)
-            .css('overflow', 'hidden')
-            .css('height', cropParameters.height + 'px')
-            .css('width', cropParameters.width + 'px');
+        image.onload = function(){
+            // calculate measures
+            cropParameters.height = getMeasure(image.height, settings.height);
+            cropParameters.width = getMeasure(image.width, settings.width);
 
-        // sets styles for image
-		$(element)
-            .css('position', 'relative')
-            .css('margin', '0px')
-			.css('top', cropParameters.top + 'px')
-            .css('left', cropParameters.left + 'px');
+            // calculate shifts
+            cropParameters.top = getShift(image.height, cropParameters.height, settings.verticalPosition);
+            cropParameters.left = getShift(image.width, cropParameters.width, settings.horizontalPosition);
 
-        // call "after" callback
-        settings.afterCrop(cropParameters);
+            // assign element to parameters
+            cropParameters.element = element;
+
+            // show image
+            $(element).attr('src', src).show();
+
+            // set styles for parent div
+            $(cropParameters.parent)
+                .css('overflow', 'hidden')
+                .css('height', cropParameters.height + 'px')
+                .css('width', cropParameters.width + 'px');
+
+            // sets styles for image
+            $(element)
+                .css('position', 'relative')
+                .css('margin', '0px')
+                .css('top', cropParameters.top + 'px')
+                .css('left', cropParameters.left + 'px');
+
+            // call "after" callback
+            settings.afterCrop(cropParameters);
+        };
+
+        image.src = src;
 	}
 
     // set up jQuery plugin
@@ -135,6 +163,9 @@
         width: null, // default width
         verticalPosition: 'top', // default vertical position
         horizontalPosition: 'left', // default horizontal position
+        showLoader: true, // shows loader by default
+        loaderSrc: 'loader.gif', // default loader url
+        loaderCss: {}, // default loader css
         afterCrop: function (cropParameters) {} // default callback (does nothing)
     };
 	
