@@ -67,7 +67,7 @@
             result = elementMeasure;
         }
 
-        // if image height is smaller than set height use image height
+        // if image height/width is smaller than set height use image height
         if (elementMeasure < result) {
             result = elementMeasure;
         }
@@ -77,16 +77,26 @@
 
     // shows the loader depending on settings
     function showLoader(settings, element) {
+        var //
+            loaderImg = new Image();
+
+        loaderImg.onload = function(){
+            $(loaderImg).show();
+        };
+
         // show indicator
         if (settings.showLoader === true) {
             if (settings.loaderCss !== null) {
-                $(element).css(settings.loaderCss);
+                $(loaderImg)
+                    .css(settings.loaderCss)
+                    .hide();
             }
 
-            $(element).attr('src', settings.loaderSrc);
-        }
-        else {
-            $(element).hide();
+            loaderImg.src = settings.loaderSrc;
+
+            $(loaderImg).attr('class', 'loader');
+
+            $(element).after(loaderImg);
         }
     }
 
@@ -96,7 +106,11 @@
         var //
             cropParameters = {},
             src = $(element).attr('data-src'),
+            cssClass = $(element).attr('class'),
             image = new Image();
+
+        // first of all, hide element which is not filled yet
+        $(element).css('visibility', 'hidden');
 
         // wrap image by div
         cropParameters.parent = getParent(element);
@@ -105,19 +119,20 @@
         showLoader(settings, element);
 
         image.onload = function(){
+
+            // assign image to element and hide (external css styles will be applied)
+            element.src = image.src;
+
             // calculate measures
-            cropParameters.height = getMeasure(image.height, settings.height);
-            cropParameters.width = getMeasure(image.width, settings.width);
+            cropParameters.height = getMeasure(element.height, settings.height);
+            cropParameters.width = getMeasure(element.width, settings.width);
 
             // calculate shifts
-            cropParameters.top = getShift(image.height, cropParameters.height, settings.verticalPosition);
-            cropParameters.left = getShift(image.width, cropParameters.width, settings.horizontalPosition);
+            cropParameters.top = getShift(element.height, cropParameters.height, settings.verticalPosition);
+            cropParameters.left = getShift(element.width, cropParameters.width, settings.horizontalPosition);
 
             // assign element to parameters
             cropParameters.element = element;
-
-            // show image
-            $(element).attr('src', src).show();
 
             // set styles for parent div
             $(cropParameters.parent)
@@ -131,6 +146,18 @@
                 .css('margin', '0px')
                 .css('top', cropParameters.top + 'px')
                 .css('left', cropParameters.left + 'px');
+
+            cropParameters.parent
+                .find('img:first-child')
+                .attr('class', cssClass)
+                .attr('data-src', src)
+                .show();
+
+            // remove loader
+            $('.loader').remove();
+
+            // show cropped image
+            $(element).css('visibility', 'visible');
 
             // call "after" callback
             settings.afterCrop(cropParameters);
