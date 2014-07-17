@@ -86,17 +86,18 @@
 
         // show indicator
         if (settings.showLoader === true) {
+
+            $(loaderImg).hide();
+
             if (settings.loaderCss !== null) {
-                $(loaderImg)
-                    .css(settings.loaderCss)
-                    .hide();
+                $(loaderImg).css(settings.loaderCss);
             }
 
             loaderImg.src = settings.loaderSrc;
 
             $(loaderImg).attr('class', 'loader');
 
-            $(element).after(loaderImg);
+            $(element).after(loaderImg)
         }
     }
 
@@ -153,11 +154,11 @@
                 .attr('data-src', src)
                 .show();
 
-            // remove loader
-            $('.loader').remove();
-
             // show cropped image
             $(element).css('visibility', 'visible');
+
+            // remove loader
+            $('.loader').remove();
 
             // call "after" callback
             settings.afterCrop(cropParameters);
