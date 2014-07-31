@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Crop Images On The Fly
  *
  * Copyright (c) 2014 Bartłomiej Dybowski
@@ -23,6 +23,7 @@
 
             return false;
         });
+
 
         return $(element).parent('.cropContainer');
     }
