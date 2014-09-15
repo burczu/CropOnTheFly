@@ -6,7 +6,7 @@
  * Uses the same license as jQuery, see:
  * http://docs.jquery.com/License
  *
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 (function($) {
@@ -167,7 +167,7 @@
         image.src = src;
 	}
     
-    // image preloading helper
+    // image pre-loading helper
     function preLoad(imagePath) {
         var img = new Image();
         
@@ -180,7 +180,7 @@
         // handle default options
         var settings = $.extend({}, $.fn.cropOnTheFly.settings, options);
 	
-        // preload loader image
+        // pre-load loader image
         if (settings.showLoader) {
             preLoad(settings.loaderSrc);
         }
