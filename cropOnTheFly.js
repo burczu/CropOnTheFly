@@ -165,6 +165,13 @@
 
         image.src = src;
 	}
+    
+    // image preloading helper
+    function preLoad(imagePath) {
+        var img = new Image();
+        
+        img.src = imagePath;
+    }
 
     // set up jQuery plugin
 	$.fn.cropOnTheFly = function(options) {
@@ -172,6 +179,11 @@
         // handle default options
         var settings = $.extend({}, $.fn.cropOnTheFly.settings, options);
 	
+        // preload loader image
+        if (settings.showLoader) {
+            preLoad(settings.loaderSrc);
+        }
+        
 		// do for each element
 		return this.each(function() {
 			// variables
